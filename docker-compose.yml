@@ -1,0 +1,37 @@
+version: '3.7'
+services:
+  dbt-dev:
+    build:
+      context: .
+      target: dev
+    image: rocketechgroup/dbt-dev
+    container_name: dbt-dev
+    environment:
+      - PROJECT_ID=${PROJECT_ID?PROJECT_ID_is_undefined}
+      - LOCATION=${LOCATION?LOCATION_is_undefined}
+      - DEFAULT_DATASET=${DEFAULT_DATASET?DEFAULT_DATASET_is_undefined}
+      - GOOGLE_APPLICATION_CREDENTIALS=/home/dbtuser/.config/gcloud/application_default_credentials.json
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+    volumes:
+      - ./analysis:/home/dbtuser/analysis
+      - ./data:/home/dbtuser/data
+      - ./macros:/home/dbtuser/macros
+      - ./models:/home/dbtuser/models
+      - ./snapshots:/home/dbtuser/snapshots
+      - ./tests:/home/dbtuser/tests
+      - ./dbt_project.yml:/home/dbtuser/dbt_project.yml
+      - ./infrastructure/profiles.yml:/home/dbtuser/.dbt/profiles.yml
+      - ~/.config/gcloud/application_default_credentials.json:/home/dbtuser/.config/gcloud/application_default_credentials.json
+  dbt-prod:
+    build:
+      context: .
+      target: prod
+    image: rocketechgroup/dbt-prod
+    container_name: dbt-prod
+    environment:
+      - PROJECT_ID=${PROJECT_ID?PROJECT_ID_is_undefined}
+      - LOCATION=${LOCATION?LOCATION_is_undefined}
+      - DEFAULT_DATASET=${DEFAULT_DATASET?DEFAULT_DATASET_is_undefined}
