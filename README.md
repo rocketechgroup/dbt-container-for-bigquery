@@ -20,7 +20,7 @@ The following permissions are required in order to run DBT using Service Account
 > DEV
 1. Create a service account just for DBT (with no keys) on a GCP project with the name `dbt-user@<your gcp project id>.iam.gserviceaccount.com`. 
 1. Grant it necessary permission to write to BigQuery and run BigQuery jobs (usually `roles/bigquery.dataEditor` and `roles/bigquery.jobUser`). 
-1. Grant the `dbt-user` service account `roles/iam.serviceAccountUser` and `roles/iam.serviceAccountTokenCreator` to the group your GCP user belongs to under https://console.cloud.google.com/iam-admin/serviceaccounts?authuser=1&project=`<your gcp project id>`. Do not grant these two roles at project level.
+1. Grant the `dbt-user` service account `roles/iam.serviceAccountUser` and `roles/iam.serviceAccountTokenCreator` to the group your GCP user belongs to under `https://console.cloud.google.com/iam-admin/serviceaccounts?authuser=1&project=<your gcp project id>`. Do not grant these two roles at project level.
 > PROD
 
 This would be exactly the same on PROD with the exception that `roles/iam.serviceAccountUser` and `roles/iam.serviceAccountTokenCreator` should be granted to an appropriate service account instead of a GCP user group. For example, this would be the Cloud Composer service account if the container is used with Cloud Composer via [Kubernetes Pod Operator](https://cloud.google.com/composer/docs/how-to/using/using-kubernetes-pod-operator) 
