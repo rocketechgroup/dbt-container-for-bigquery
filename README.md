@@ -91,6 +91,6 @@ Supported invoke commands are
     - `invoke debug "ls"` 
     - `invoke debug "cat dbt_project.yml"`
 
-Please note that it might take a few minutes the firs time this is executed because it has to build the docker container from scratch but subsequent runs should be executed within seconds. 
+Please note that it might take a few minutes the first time this is executed because it has to build the docker container from scratch but subsequent runs should be executed within seconds. 
 Once the execution is successful you should see something like this
 ![Example Run DBT Exec Log](docs/example_execution_log.png)   
