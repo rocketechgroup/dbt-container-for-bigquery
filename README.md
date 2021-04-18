@@ -11,8 +11,19 @@ A template project to run DBT jobs inside a docker container with BigQuery
 - Works for both local development and for production.
 
 ## Prerequisites
+### Software required
 1. Have [Docker Desktop](https://www.docker.com/products/docker-desktop) installed
 1. Have Python 3.6+ installed
+
+### Permissions required
+The following permissions are required in order to run DBT using Service Account Impersonation.
+> DEV
+1. Create a service account just for DBT (with no keys) on a GCP project with the name `dbt-user@<your gcp project id>.iam.gserviceaccount.com`. 
+1. Grant it necessary permission to write to BigQuery and run BigQuery jobs (usually `roles/bigquery.dataEditor` and `roles/bigquery.jobUser`). 
+1. Grant the `dbt-user` service account `roles/iam.serviceAccountUser` and `roles/iam.serviceAccountTokenCreator` to the group your GCP user belongs to under https://console.cloud.google.com/iam-admin/serviceaccounts?authuser=1&project=`<your gcp project id>`. Do not grant these two roles at project level.
+> PROD
+
+This would be exactly the same on PROD with the exception that `roles/iam.serviceAccountUser` and `roles/iam.serviceAccountTokenCreator` should be granted to an appropriate service account instead of a GCP user group. For example, this would be the Cloud Composer service account if the container is used with Cloud Composer via [Kubernetes Pod Operator](https://cloud.google.com/composer/docs/how-to/using/using-kubernetes-pod-operator) 
 
 ## Get Started
 ### Clone the repository
@@ -51,7 +62,7 @@ pip install -r ./infrastructure/requirements.venv.txt
 ```
 
 ### Run DBT commands inside the container
-To run the DBT job inside the Docker container, the following environment variables are required
+To run DBT commands inside the Docker container, the following environment variables are required
 ```
 PROJECT_ID=<GCP project id where DBT will persist data to>
 LOCATION=<Location of where DBT will read & persist data to>
